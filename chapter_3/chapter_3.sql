@@ -70,7 +70,7 @@ SELECT * FROM date_time_types;
 
 SELECT timestamp_column,
        interval_column, 
-       timestamp_column - interval_column as new_date
+       timestamp_column - interval_column AS new_date
 FROM date_time_types;
 
 /*
@@ -82,3 +82,42 @@ FROM date_time_types;
  2020-09-21 18:06:08.741195+00 | 7 days          | 2020-09-14 18:06:08.741195+00
 (4 rows)
 */
+
+SELECT timestamp_column, CAST(timestamp_column AS varchar(10))
+FROM date_time_types;
+
+/*
+       timestamp_column        | timestamp_column
+-------------------------------+------------------
+ 2018-12-31 06:00:00+00        | 2018-12-31
+ 2019-12-31 09:00:00+00        | 2019-12-31
+ 2018-12-30 14:00:00+00        | 2018-12-30
+ 2020-09-21 18:06:08.741195+00 | 2020-09-21
+(4 rows)
+*/
+
+SELECT numeric_column,
+       CAST(numeric_column AS integer),
+       CAST(numeric_column AS varchar(6))
+FROM number_data_types;
+
+/*
+ numeric_column | numeric_column | numeric_column
+----------------+----------------+----------------
+        0.70000 |              1 | 0.7000
+        2.13579 |              2 | 2.1357
+        2.13580 |              2 | 2.1358
+(3 rows)
+*/
+
+SELECT numeric_column::varchar(6)
+FROM number_data_types;
+
+/*
+ numeric_column
+----------------
+ 0.7000
+ 2.1357
+ 2.1358
+(3 rows)
+/*
