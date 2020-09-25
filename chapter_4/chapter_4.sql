@@ -59,3 +59,9 @@ SELECT town, 'Some County', supervisor, salary
 FROM supervisor_salaries_temp;
 
 DROP TABLE supervisor_salaries_temp;
+
+\copy us_counties_2010 TO './us_counties_export.txt' WITH (FORMAT CSV, HEADER, DELIMITER '|');
+
+\copy us_counties_2010 (geo_name, internal_point_lat, internal_point_lon) TO './us_counties_latlon_export.csv' WITH (FORMAT CSV, HEADER);
+
+\copy (SELECT geo_name, state_us_abbreviation FROM us_counties_2010 WHERE geo_name ILIKE '%mill%') TO './us_counties_mill_export.csv' WITH (FORMAT CSV, HEADER);
