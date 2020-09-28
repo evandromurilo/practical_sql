@@ -81,3 +81,67 @@ ORDER BY "change" DESC;
  Police     |  250000.00 |  223000.00 |  -10.8
 (6 rows)
 */
+
+SELECT sum(p0010001) AS "County Sum",
+       round(avg(p0010001), 0) AS "County Average"
+FROM us_counties_2010;
+
+/*
+ County Sum | County Average
+------------+----------------
+  308745538 |          98233
+(1 row)
+*/
+
+CREATE TABLE percentile_test (
+    numbers integer
+);
+
+INSERT INTO percentile_test (numbers) VALUES
+(1), (2), (3), (4), (5), (6);
+
+SELECT percentile_cont(.5) WITHIN GROUP (ORDER BY numbers),
+       percentile_disc(.5) WITHIN GROUP (ORDER BY numbers)
+FROM percentile_test;
+
+/*
+ percentile_cont | percentile_disc
+-----------------+-----------------
+             3.5 |               3
+(1 row)
+*/
+
+INSERT INTO percentile_test (numbers) VALUES (7);
+
+SELECT percentile_cont(.5) WITHIN GROUP (ORDER BY numbers),
+       percentile_disc(.5) WITHIN GROUP (ORDER BY numbers)
+FROM percentile_test;
+
+/*
+ percentile_cont | percentile_disc
+-----------------+-----------------
+               4 |               4
+(1 row)
+*/
+
+SELECT sum(p0010001) AS "County Sum",
+       round(avg(p0010001), 0) AS "County Average",
+       percentile_cont(.5) WITHIN GROUP (ORDER BY p0010001) AS "County Median"
+FROM us_counties_2010;
+
+/*
+ County Sum | County Average | County Median
+------------+----------------+---------------
+  308745538 |          98233 |         25857
+(1 row)
+*/
+
+SELECT percentile_cont(array[.25, .5, .75]) WITHIN GROUP (ORDER BY p0010001) AS "Quartiles"
+FROM us_counties_2010;
+
+/*
+       Quartiles
+-----------------------
+ {11104.5,25857,66699}
+(1 row)
+*/
