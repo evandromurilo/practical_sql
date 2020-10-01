@@ -145,3 +145,43 @@ FROM us_counties_2010;
  {11104.5,25857,66699}
 (1 row)
 */
+
+SELECT unnest(
+    percentile_cont(array[.25, .5, .75]) WITHIN GROUP (ORDER BY p0010001)
+) as "Quartiles"
+FROM us_counties_2010;
+
+/*
+ Quartiles
+-----------
+   11104.5
+     25857
+     66699
+(3 rows)
+*/
+
+SELECT unnest(array[.25, .5, .75]) as "Quartiles",
+       unnest(
+           percentile_cont(array[.25, .5, .75]) WITHIN GROUP (ORDER BY p0010001)
+       ) as "Values"
+FROM us_counties_2010;
+
+/*
+
+ Quartiles | Values
+-----------+---------
+      0.25 | 11104.5
+       0.5 |   25857
+      0.75 |   66699
+(3 rows)
+*/
+
+SELECT mode() WITHIN GROUP (ORDER BY p0010001)
+FROM us_counties_2010;
+
+/*
+ mode
+-------
+ 21720
+(1 row)
+*/
