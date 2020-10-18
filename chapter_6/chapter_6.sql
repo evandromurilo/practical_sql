@@ -62,3 +62,103 @@ INSERT INTO schools_right (id, right_school) VALUES
     (3, 'Morrison Elementary'),
     (4, 'Chase Magnet Academy'),
     (6, 'Jefferson High School');
+
+SELECT *
+FROM schools_left JOIN schools_right
+ON schools_left.id = schools_right.id;
+
+/*
+ id |      left_school      | id |     right_school
+----+-----------------------+----+-----------------------
+  1 | Oak Street School     |  1 | Oak Street School
+  2 | Roosevelt High School |  2 | Roosevelt High School
+  6 | Jefferson High School |  6 | Jefferson High School
+(3 rows)
+*/
+
+SELECT *
+FROM schools_left LEFT JOIN schools_right
+ON schools_left.id = schools_right.id;
+
+/*
+ id |       left_school        | id |     right_school
+----+--------------------------+----+-----------------------
+  1 | Oak Street School        |  1 | Oak Street School
+  2 | Roosevelt High School    |  2 | Roosevelt High School
+  5 | Washington Middle School |    |
+  6 | Jefferson High School    |  6 | Jefferson High School
+(4 rows)
+*/
+
+SELECT *
+FROM schools_left LEFT JOIN schools_right
+ON schools_left.id = schools_right.id
+WHERE schools_right.id IS NULL;
+
+/*
+ id |       left_school        | id | right_school
+----+--------------------------+----+--------------
+  5 | Washington Middle School |    |
+(1 row)
+*/
+
+SELECT *
+FROM schools_left RIGHT JOIN schools_right
+ON schools_left.id = schools_right.id;
+
+
+/*
+ id |      left_school      | id |     right_school
+----+-----------------------+----+-----------------------
+  1 | Oak Street School     |  1 | Oak Street School
+  2 | Roosevelt High School |  2 | Roosevelt High School
+    |                       |  3 | Morrison Elementary
+    |                       |  4 | Chase Magnet Academy
+  6 | Jefferson High School |  6 | Jefferson High School
+(5 rows)
+*/
+
+SELECT *
+FROM schools_left FULL OUTER JOIN schools_right
+ON schools_left.id = schools_right.id;
+
+/*
+ id |       left_school        | id |     right_school
+----+--------------------------+----+-----------------------
+1 | Oak Street School        |  1 | Oak Street School
+2 | Roosevelt High School    |  2 | Roosevelt High School
+5 | Washington Middle School |    |
+6 | Jefferson High School    |  6 | Jefferson High School
+  |                          |  4 | Chase Magnet Academy
+  |                          |  3 | Morrison Elementary
+(6 rows)
+*/
+
+SELECT *
+FROM schools_left CROSS JOIN schools_right;
+
+/*
+ id |       left_school        | id |     right_school
+----+--------------------------+----+-----------------------
+1 | Oak Street School        |  1 | Oak Street School
+1 | Oak Street School        |  2 | Roosevelt High School
+1 | Oak Street School        |  3 | Morrison Elementary
+1 | Oak Street School        |  4 | Chase Magnet Academy
+1 | Oak Street School        |  6 | Jefferson High School
+2 | Roosevelt High School    |  1 | Oak Street School
+2 | Roosevelt High School    |  2 | Roosevelt High School
+2 | Roosevelt High School    |  3 | Morrison Elementary
+2 | Roosevelt High School    |  4 | Chase Magnet Academy
+2 | Roosevelt High School    |  6 | Jefferson High School
+5 | Washington Middle School |  1 | Oak Street School
+5 | Washington Middle School |  2 | Roosevelt High School
+5 | Washington Middle School |  3 | Morrison Elementary
+5 | Washington Middle School |  4 | Chase Magnet Academy
+5 | Washington Middle School |  6 | Jefferson High School
+6 | Jefferson High School    |  1 | Oak Street School
+6 | Jefferson High School    |  2 | Roosevelt High School
+6 | Jefferson High School    |  3 | Morrison Elementary
+6 | Jefferson High School    |  4 | Chase Magnet Academy
+6 | Jefferson High School    |  6 | Jefferson High School
+(20 rows)
+*/
